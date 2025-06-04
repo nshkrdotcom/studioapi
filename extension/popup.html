@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      width: 300px;
+      padding: 15px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+    .status {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    .status-indicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-right: 8px;
+    }
+    .status-indicator.connected {
+      background-color: #4CAF50;
+    }
+    .status-indicator.disconnected {
+      background-color: #F44336;
+    }
+    .button {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      border: none;
+      border-radius: 4px;
+      background-color: #1976D2;
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .button:hover {
+      background-color: #1565C0;
+    }
+    .button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+    .stats {
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid #eee;
+      font-size: 12px;
+    }
+    .stats-row {
+      display: flex;
+      justify-content: space-between;
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h3>🤖 AI Studio CLI</h3>
+  </div>
+  
+  <div class="status">
+    <div class="status-indicator" id="statusIndicator"></div>
+    <span id="statusText">Checking...</span>
+  </div>
+  
+  <button class="button" id="testConnection">Test Connection</button>
+  <button class="button" id="startNewChat">Start New Chat</button>
+  
+  <div class="stats">
+    <div class="stats-row">
+      <span>Prompts sent:</span>
+      <span id="promptCount">0</span>
+    </div>
+    <div class="stats-row">
+      <span>Responses received:</span>
+      <span id="responseCount">0</span>
+    </div>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>

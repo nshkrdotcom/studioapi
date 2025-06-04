@@ -1,0 +1,40 @@
+{
+  "manifest_version": 3,
+  "name": "AI Studio CLI Bridge",
+  "version": "1.0.0",
+  "description": "Automated bridge between Python CLI and Google AI Studio",
+  
+  "permissions": [
+    "activeTab",
+    "storage",
+    "scripting"
+  ],
+  
+  "host_permissions": [
+    "https://aistudio.google.com/*"
+  ],
+  
+  "background": {
+    "service_worker": "background.js"
+  },
+  
+  "content_scripts": [
+    {
+      "matches": ["https://aistudio.google.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "AI Studio CLI Bridge"
+  },
+  
+  "web_accessible_resources": [
+    {
+      "resources": ["injected.js"],
+      "matches": ["https://aistudio.google.com/*"]
+    }
+  ]
+}
