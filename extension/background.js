@@ -10,16 +10,16 @@ class AIStudioBridge {
     console.log('[AI Studio DEBUG] Background script loaded');
     
     // Handle extension startup
-    chrome.runtime.onStartup.addListener(() => {
+    browser.runtime.onStartup.addListener(() => {
       this.startCommandMonitoring();
     });
 
-    chrome.runtime.onInstalled.addListener(() => {
+    browser.runtime.onInstalled.addListener(() => {
       this.startCommandMonitoring();
     });
 
     // Handle messages from content script
-    chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
       console.log('[AI Studio DEBUG] Background received message:', message.type);
       this.handleMessage(message, sender, sendResponse);
       return true; // Keep channel open for async response
@@ -40,8 +40,8 @@ class AIStudioBridge {
     }, 500);
     
     // Update badge
-    chrome.action.setBadgeText({ text: 'ON' });
-    chrome.action.setBadgeBackgroundColor({ color: '#4CAF50' });
+    browser.action.setBadgeText({ text: 'ON' });
+    browser.action.setBadgeBackgroundColor({ color: '#4CAF50' });
   }
 
   async checkForCommands() {
@@ -112,7 +112,7 @@ class AIStudioBridge {
     console.log('[AI Studio DEBUG] Sending prompt to active tab:', promptData);
     
     // First try active tab
-    let tabs = await chrome.tabs.query({ 
+    let tabs = await browser.tabs.query({
       active: true, 
       url: 'https://aistudio.google.com/*' 
     });
@@ -120,7 +120,7 @@ class AIStudioBridge {
     // If no active AI Studio tab, try any AI Studio tab
     if (tabs.length === 0) {
       console.log('[AI Studio DEBUG] No active AI Studio tab found, trying any AI Studio tab...');
-      tabs = await chrome.tabs.query({ url: 'https://aistudio.google.com/*' });
+      tabs = await browser.tabs.query({ url: 'https://aistudio.google.com/*' });
     }
     
     if (tabs.length === 0) {
@@ -136,7 +136,7 @@ class AIStudioBridge {
       
       try {
         // Send message with response handling
-        const response = await chrome.tabs.sendMessage(tab.id, {
+        const response = await browser.tabs.sendMessage(tab.id, {
           type: 'SEND_PROMPT',
           data: promptData
         });
@@ -157,26 +157,26 @@ class AIStudioBridge {
   }
 
   async startNewChatInActiveTab() {
-    const tabs = await chrome.tabs.query({ 
+    const tabs = await browser.tabs.query({
       active: true, 
       url: 'https://aistudio.google.com/*' 
     });
     
     if (tabs.length > 0) {
-      chrome.tabs.sendMessage(tabs[0].id, {
+      browser.tabs.sendMessage(tabs[0].id, {
         type: 'START_NEW_CHAT'
       });
     }
   }
 
   async checkAuthenticationInActiveTab() {
-    const tabs = await chrome.tabs.query({ 
+    const tabs = await browser.tabs.query({
       active: true, 
       url: 'https://aistudio.google.com/*' 
     });
     
     if (tabs.length > 0) {
-      chrome.tabs.sendMessage(tabs[0].id, {
+      browser.tabs.sendMessage(tabs[0].id, {
         type: 'CHECK_AUTH'
       });
     }
