@@ -718,30 +718,12 @@ class AIStudioCLI:
     def _start_chrome(self) -> bool:
         """Start Chrome with AI Studio"""
         try:
-            chrome_paths = [
-                r"C:\Program Files\Google\Chrome\Application\chrome.exe",
-                r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
-            ]
-            
-            chrome_exe = None
-            for path in chrome_paths:
-                if os.path.exists(path):
-                    chrome_exe = path
-                    break
-            
-            if not chrome_exe:
-                print("Chrome not found, opening with default browser")
-                webbrowser.open("https://aistudio.google.com")
-                return True
-            
-            # Launch Chrome
-            cmd = [chrome_exe, "--new-window", "https://aistudio.google.com"]
-            subprocess.Popen(cmd)
-            time.sleep(3)
+            print("Opening AI Studio with default browser...")
+            webbrowser.open("https://aistudio.google.com")
             return True
             
         except Exception as e:
-            print(f"Failed to start Chrome: {e}")
+            print(f"Failed to open browser: {e}")
             return False
     
     def _show_stats(self):

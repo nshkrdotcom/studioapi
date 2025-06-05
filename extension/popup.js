@@ -25,7 +25,7 @@ class PopupController {
 
   async updateStatus() {
     try {
-      const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+      const [tab] = await browser.tabs.query({ active: true, currentWindow: true });
       const isOnAIStudio = tab?.url?.includes('aistudio.google.com');
 
       const statusIndicator = document.getElementById('statusIndicator');
@@ -48,14 +48,14 @@ class PopupController {
 
   async startNewChat() {
     try {
-      const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+      const [tab] = await browser.tabs.query({ active: true, currentWindow: true });
       
       if (!tab?.url?.includes('aistudio.google.com')) {
         alert('Please navigate to aistudio.google.com first');
         return;
       }
 
-      const results = await chrome.scripting.executeScript({
+      const results = await browser.scripting.executeScript({
         target: { tabId: tab.id },
         function: () => {
           window.postMessage({
@@ -84,14 +84,14 @@ class PopupController {
 
   async testConnection() {
     try {
-      const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+      const [tab] = await browser.tabs.query({ active: true, currentWindow: true });
       
       if (!tab?.url?.includes('aistudio.google.com')) {
         alert('Please navigate to aistudio.google.com first');
         return;
       }
 
-      const results = await chrome.scripting.executeScript({
+      const results = await browser.scripting.executeScript({
         target: { tabId: tab.id },
         function: () => {
           return {
@@ -127,7 +127,7 @@ class PopupController {
 
   async loadStats() {
     try {
-      const result = await chrome.storage.local.get(['promptCount', 'responseCount']);
+      const result = await browser.storage.local.get(['promptCount', 'responseCount']);
       
       document.getElementById('promptCount').textContent = result.promptCount || 0;
       document.getElementById('responseCount').textContent = result.responseCount || 0;

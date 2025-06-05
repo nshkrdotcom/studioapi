@@ -24,7 +24,7 @@ class AIStudioContentScript {
     }
 
     // Listen for messages from background script
-    chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
       this.onMessage(message, sender, sendResponse);
       return true;
     });
@@ -35,7 +35,7 @@ class AIStudioContentScript {
     
     // Inject page script for full DOM access
     const script = document.createElement('script');
-    script.src = chrome.runtime.getURL('injected.js');
+    script.src = browser.runtime.getURL('injected.js');
     (document.head || document.documentElement).appendChild(script);
     
     // Set up communication with injected script
@@ -716,7 +716,7 @@ class AIStudioContentScript {
     this.copyToClipboard(responseText);
     
     // Send to background script
-    chrome.runtime.sendMessage({
+    browser.runtime.sendMessage({
       type: 'RESPONSE_RECEIVED',
       data: {
         content: responseText,
@@ -826,7 +826,7 @@ class AIStudioContentScript {
         break;
       case 'AUTH_CHECKED':
         console.log('[AI Studio DEBUG] Auth check result received:', message.data);
-        chrome.runtime.sendMessage({
+        browser.runtime.sendMessage({
           type: 'AUTH_STATUS',
           data: { authenticated: message.data.authenticated }
         });
